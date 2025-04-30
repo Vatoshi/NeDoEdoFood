@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: fk-1
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: store
+            baseColumnNames: category_id
+            referencedTableName: category
+            referencedColumnNames: id
+            constraintName: fk_store_category
+
+  - changeSet:
+      id: fk-2
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: store
+            baseColumnNames: address_id
+            referencedTableName: address
+            referencedColumnNames: id
+            constraintName: fk_store_address
+
+  - changeSet:
+      id: fk-3
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: dishes
+            baseColumnNames: store_id
+            referencedTableName: store
+            referencedColumnNames: id
+            constraintName: fk_dishes_store
+
+  - changeSet:
+      id: fk-4
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: dishes
+            baseColumnNames: category_id
+            referencedTableName: dish_category
+            referencedColumnNames: id
+            constraintName: fk_dishes_category
+
+  - changeSet:
+      id: fk-5
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: order
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_order_user
+
+  - changeSet:
+      id: fk-6
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: ordered_dish
+            baseColumnNames: order_id
+            referencedTableName: order
+            referencedColumnNames: id
+            constraintName: fk_ordered_dish_order
+
+  - changeSet:
+      id: fk-7
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: ordered_dish
+            baseColumnNames: dish_id
+            referencedTableName: dishes
+            referencedColumnNames: id
+            constraintName: fk_ordered_dish_dish
+
+  - changeSet:
+      id: fk-8
+      author: eric
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: authority_id
+            referencedTableName: authority
+            referencedColumnNames: id
+            constraintName: fk_user_authority

@@ -1,0 +1,38 @@
+databaseChangeLog:
+    - changeSet:
+          id: insert-auth
+          author: eric
+          changes:
+              - sql: |
+                    insert into authority (name) values
+                    ('USER'),
+                    ('ADMIN');
+
+    - changeSet:
+          id: insert-category
+          author: eric
+          changes:
+              - sql: |
+                    insert into category (name) values
+                    ('Ресторан'),
+                    ('Кафе'),
+                    ('Фастфуд'),
+                    ('Столовая'),
+                    ('Паб'),
+                    ('Кондитерская'),
+                    ('Кофейня');
+
+    - changeSet:
+          id: insert-dish-category
+          author: eric
+          changes:
+              - sql: |
+                    insert into dish_category (name) values
+                    ('Холодное'),
+                    ('Горячее'),
+                    ('Напитки'),
+                    ('Десерты'),
+                    ('Супы'),
+                    ('Завтраки'),
+                    ('Салаты'),
+                    ('Выпечка');

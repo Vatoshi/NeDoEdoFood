@@ -1,0 +1,128 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: eric
+      changes:
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar
+              - column:
+                  name: city
+                  type: varchar
+
+  - changeSet:
+      id: 2
+      author: eric
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar
+
+  - changeSet:
+      id: 3
+      author: eric
+      changes:
+        - createTable:
+            tableName: store
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar }
+              - column: { name: category_id, type: bigint }
+              - column: { name: description, type: bigint }
+              - column: { name: address_id, type: bigint }
+              - column: { name: phone_number, type: bigint }
+              - column: { name: email, type: varchar }
+              - column: { name: work_time_from, type: timestamp }
+              - column: { name: work_time_to, type: timestamp }
+              - column: { name: logo, type: varchar}
+
+  - changeSet:
+      id: 4
+      author: eric
+      changes:
+        - createTable:
+            tableName: dishes
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar }
+              - column: { name: description, type: varchar }
+              - column: { name: store_id, type: bigint }
+              - column: { name: category_id, type: bigint }
+              - column: { name: photo, type: varchar }
+              - column: { name: in_stock, type: bigint }
+              - column: { name: price, type: bigint }
+
+  - changeSet:
+      id: 5
+      author: eric
+      changes:
+        - createTable:
+            tableName: dish_category
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar }
+
+  - changeSet:
+      id: 6
+      author: eric
+      changes:
+        - createTable:
+            tableName: order
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: user_id, type: bigint }
+              - column: { name: created_date, type: timestamp }
+              - column: { name: total, type: bigint }
+
+  - changeSet:
+      id: 7
+      author: eric
+      changes:
+        - createTable:
+            tableName: ordered_dish
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: order_id, type: bigint }
+              - column: { name: dish_id, type: bigint }
+
+  - changeSet:
+      id: 8
+      author: eric
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar }
+              - column: { name: email, type: varchar }
+              - column: { name: password, type: varchar }
+              - column: { name: phone_number, type: bigint }
+              - column: { name: authority_id, type: bigint }
+
+  - changeSet:
+      id: 9
+      author: eric
+      changes:
+        - createTable:
+            tableName: authority
+            columns:
+              - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
+              - column: { name: name, type: varchar }
