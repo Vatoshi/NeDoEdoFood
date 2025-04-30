@@ -1,3 +1,5 @@
+<#import "../layout.ftlh" as main>
+<@main.layout>
 <section class="hero">
     <div class="container">
         <div class="hero-content">
@@ -72,21 +74,23 @@
 
     <div class="restaurants">
 
-
+    <#if stores??>
+        <#list stores.content as store>
         <div class="restaurant-card">
             <div class="restaurant-img"
-                 style="background-image: url('https://images.unsplash.com/photo-1615873968403-89e068629265?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                 style="background-image: url('${store.logo}')">
             </div>
             <div class="restaurant-info">
-                <h3>McDonald's</h3>
+                <h3>${store.name}</h3>
                 <div class="restaurant-meta">
-                    <span class="rating">★★★★☆ 4.2</span>
-                    <span>• Фастфуд • $$</span>
+                    <span>•${store.category.name}</span>
                 </div>
-                <p>Знаменитые бургеры, картофель фри и другие блюда быстрого питания</p>
+                <p>${store.description}</p>
                 <a href="#" class="view-menu">Смотреть меню</a>
             </div>
         </div>
+        </#list>
+    </#if>
 
     </div>
 </section>
@@ -263,7 +267,7 @@ header {
 
 .restaurants {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     margin-bottom: 50px;
 }
@@ -434,6 +438,19 @@ footer {
 }
 
     </style>
-</footer>
 
-</html>
+    <script>
+        window.addEventListener('load', function () {
+            const scrollPosition = localStorage.getItem('scrollPosition');
+            if (scrollPosition) {
+                window.scrollTo(0, scrollPosition);
+            }
+        });
+
+        window.addEventListener('scroll', function () {
+            const scrollPosition = window.scrollY;
+            localStorage.setItem('scrollPosition', scrollPosition);
+        });
+    </script>
+</footer>
+</@main.layout>

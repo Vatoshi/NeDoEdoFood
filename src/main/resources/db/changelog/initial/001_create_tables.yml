@@ -46,12 +46,11 @@ databaseChangeLog:
               - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
               - column: { name: name, type: varchar }
               - column: { name: category_id, type: bigint }
-              - column: { name: description, type: bigint }
-              - column: { name: address_id, type: bigint }
+              - column: { name: description, type: varchar }
               - column: { name: phone_number, type: bigint }
               - column: { name: email, type: varchar }
-              - column: { name: work_time_from, type: timestamp }
-              - column: { name: work_time_to, type: timestamp }
+              - column: { name: work_time_from, type: time }
+              - column: { name: work_time_to, type: time }
               - column: { name: logo, type: varchar}
 
   - changeSet:
@@ -67,7 +66,7 @@ databaseChangeLog:
               - column: { name: store_id, type: bigint }
               - column: { name: category_id, type: bigint }
               - column: { name: photo, type: varchar }
-              - column: { name: in_stock, type: bigint }
+              - column: { name: in_stock, type: boolean }
               - column: { name: price, type: bigint }
 
   - changeSet:

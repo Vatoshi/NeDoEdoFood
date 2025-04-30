@@ -1,3 +1,4 @@
+<#macro layout>
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -19,6 +20,11 @@
         .ndf-body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
         .ndf-header {
@@ -180,5 +186,9 @@
     </div>
 </div>
 
+<main>
+    <#nested>
+</main>
 
 </html>
+</#macro>

@@ -9,18 +9,6 @@ databaseChangeLog:
             referencedTableName: category
             referencedColumnNames: id
             constraintName: fk_store_category
-
-  - changeSet:
-      id: fk-2
-      author: eric
-      changes:
-        - addForeignKeyConstraint:
-            baseTableName: store
-            baseColumnNames: address_id
-            referencedTableName: address
-            referencedColumnNames: id
-            constraintName: fk_store_address
-
   - changeSet:
       id: fk-3
       author: eric

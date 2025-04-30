@@ -5,3 +5,7 @@ databaseChangeLog:
       file: db/changelog/initial/002_create_fk.yml
   - include:
       file: db/changelog/initial/003_starter_info.yml
+  - include:
+      file: db/changelog/initial/004_add_restik.sql
+  - include:
+      file: db/changelog/initial/005_bluda.sql

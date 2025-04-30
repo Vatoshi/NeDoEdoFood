@@ -25,10 +25,6 @@ public class Store {
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
     @Column(name = "phone_number")
     private Long phoneNumber;
 
