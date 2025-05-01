@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -61,7 +62,7 @@
             font-size: 14px;
         }
 
-        .form-group input {
+        .form-group .input {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
@@ -70,7 +71,7 @@
             transition: border 0.3s;
         }
 
-        .form-group input:focus {
+        .form-group .input:focus {
             border-color: #ff6b6b;
             outline: none;
         }
@@ -164,40 +165,11 @@
             right: 0;
         }
 
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-        }
-
-        .google {
-            background-color: #db4437;
-            color: white;
-        }
-
-        .facebook {
-            background-color: #4267B2;
-            color: white;
-        }
-
-        .apple {
-            background-color: #000;
-            color: white;
+        .error {
+            color: #dd2737;
+            font-size: 0.750em;
+            margin-top: 0.25rem;
+            display: block;
         }
     </style>
 </head>
@@ -209,32 +181,34 @@
         <p>Создайте аккаунт</p>
     </div>
 
-    <form>
+    <form action="/auth/register" method="post">
+        <#if _csrf??><input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                            value="${(_csrf.token)!'csrf-token'}"/></#if>
         <div class="name-fields">
             <div class="form-group">
                 <label for="first-name">Имя</label>
-                <input type="text" id="first-name" placeholder="Ваше имя" required>
+                <@spring.formInput "userFormDto.name" 'placeholder="Ваше имя", class="input"' ></@spring.formInput>
+                <@spring.showErrors "<br>" "error"/>
             </div>
             <div class="form-group">
                 <label for="last-name">Номер телефона</label>
-                <input type="text" id="last-name" placeholder="хххх-ххх-ххх" required>
+                <@spring.formInput "userFormDto.email" 'placeholder="Ваша почта", class="input"' ></@spring.formInput>
+                <@spring.showErrors "<br>" "error"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Ваш email" required>
+            <@spring.formInput "userFormDto.password" 'placeholder="Пароль", class="input"' ></@spring.formInput>
+            <@spring.showErrors "<br>" "error"/>
         </div>
 
         <div class="form-group">
             <label for="phone">Телефон</label>
-            <input type="tel" id="phone" placeholder="Ваш телефон" required>
+            <@spring.formInput "userFormDto.phoneNumber" 'placeholder="996 ХХХ ХХХ ХХХ", class="input"' ></@spring.formInput>
+            <@spring.showErrors "<br>" "error"/>
         </div>
 
-        <div class="form-group">
-            <label for="password">Пароль</label>
-            <input type="password" id="password" placeholder="Придумайте пароль" required>
-        </div>
 
         <div class="terms">
             <input type="checkbox" id="agree-terms" required>
@@ -246,7 +220,7 @@
     </form>
 
     <div class="login-link">
-        Уже есть аккаунт? <a href="#">Войти</a>
+        Уже есть аккаунт? <a href="auth/login">Войти</a>
     </div>
 
 

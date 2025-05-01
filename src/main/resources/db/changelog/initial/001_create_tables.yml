@@ -113,7 +113,7 @@ databaseChangeLog:
               - column: { name: name, type: varchar }
               - column: { name: email, type: varchar }
               - column: { name: password, type: varchar }
-              - column: { name: phone_number, type: bigint }
+              - column: { name: phone_number, type: varchar }
               - column: { name: authority_id, type: bigint }
               - column: { name: enabled, type: boolean }
 

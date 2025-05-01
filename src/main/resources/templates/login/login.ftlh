@@ -143,7 +143,6 @@
 
         <div class="form-group">
             <label for="email">Email</label>
-<#--            <@spring.formInput "username" 'class="input"' 'email' ></@spring.formInput>-->
             <input type="text" name="username" id="email" placeholder="Введите ваш email" required>
         </div>
 
@@ -151,7 +150,6 @@
             <label for="password">Пароль</label>
             <input type="password" name="password" id="password" placeholder="Введите ваш пароль" required>
 
-<#--            <@spring.formInput "password" 'class="password"' 'password' ></@spring.formInput>-->
             <#if error?has_content>
                 <p style="color:#e12e2e;font-size: 14px;">
                     ${error}
@@ -171,7 +169,7 @@
     </form>
 
     <div class="register-link">
-        Ещё нет аккаунта? <a href="#">Зарегистрироваться</a>
+        Ещё нет аккаунта? <a href="/auth/register">Зарегистрироваться</a>
     </div>
 </div>
 
