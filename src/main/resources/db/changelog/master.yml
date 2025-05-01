@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/initial/004_add_restik.sql
   - include:
       file: db/changelog/initial/005_bluda.sql
+  - include:
+      file: db/changelog/initial/006_add_users.sql

@@ -115,6 +115,8 @@ databaseChangeLog:
               - column: { name: password, type: varchar }
               - column: { name: phone_number, type: bigint }
               - column: { name: authority_id, type: bigint }
+              - column: { name: enabled, type: boolean }
+
 
   - changeSet:
       id: 9

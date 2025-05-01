@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -125,71 +126,6 @@
             font-weight: 600;
         }
 
-        .social-login {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .social-login p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .social-login p::before,
-        .social-login p::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            width: 30%;
-            height: 1px;
-            background-color: #ddd;
-        }
-
-        .social-login p::before {
-            left: 0;
-        }
-
-        .social-login p::after {
-            right: 0;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-        }
-
-        .google {
-            background-color: #db4437;
-            color: white;
-        }
-
-        .facebook {
-            background-color: #4267B2;
-            color: white;
-        }
-
-        .apple {
-            background-color: #000;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -199,22 +135,33 @@
         <p>Войдите, чтобы продолжить</p>
     </div>
 
-    <form>
+    <form action=/auth/login method="post">
+        <#if _csrf??>
+            <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                   value="${(_csrf.token)!'csrf-token'}"/>
+        </#if>
+
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Ваш email" required>
+<#--            <@spring.formInput "username" 'class="input"' 'email' ></@spring.formInput>-->
+            <input type="text" name="username" id="email" placeholder="Введите ваш email" required>
         </div>
 
         <div class="form-group">
             <label for="password">Пароль</label>
-            <input type="password" id="password" placeholder="Ваш пароль" required>
+            <input type="password" name="password" id="password" placeholder="Введите ваш пароль" required>
+
+<#--            <@spring.formInput "password" 'class="password"' 'password' ></@spring.formInput>-->
+            <#if error?has_content>
+                <p style="color:#e12e2e;font-size: 14px;">
+                    ${error}
+                </p>
+            </#if>
         </div>
 
+
+
         <div class="remember-forgot">
-            <div class="remember-me">
-                <input type="checkbox" id="remember">
-                <label for="remember">Запомнить меня</label>
-            </div>
             <div class="forgot-password">
                 <a href="#">Забыли пароль?</a>
             </div>
@@ -225,21 +172,6 @@
 
     <div class="register-link">
         Ещё нет аккаунта? <a href="#">Зарегистрироваться</a>
-    </div>
-
-    <div class="social-login">
-        <p>Или войдите через</p>
-        <div class="social-icons">
-            <div class="social-icon google">
-                <i class="fab fa-google"></i>
-            </div>
-            <div class="social-icon facebook">
-                <i class="fab fa-facebook-f"></i>
-            </div>
-            <div class="social-icon apple">
-                <i class="fab fa-apple"></i>
-            </div>
-        </div>
     </div>
 </div>
 
