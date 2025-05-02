@@ -3,8 +3,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="/image/food.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ВкусЕда - Вход в аккаунт</title>
+    <title>Вход в аккаунт</title>
     <style>
         * {
             margin: 0;
@@ -131,7 +132,7 @@
 <body>
 <div class="login-container">
     <div class="logo">
-        <h1>ВкусЕда</h1>
+        <h1>NeDoEdoFood</h1>
         <p>Войдите, чтобы продолжить</p>
     </div>
 

@@ -1,14 +1,16 @@
 <#import "../layout.ftlh" as main>
 <@main.layout>
-<section class="hero">
+<section class="hero" id="home">
     <div class="container">
         <div class="hero-content">
             <h1>Заказ еды для вас</h1>
             <p>Более 500 ресторанов на любой вкус и цвет</p>
 
             <div class="search-bar">
-                <input type="text" placeholder="Введите адрес доставки...">
-                <button>Найти</button>
+                <form action="" method="get">
+                    <input type="text" name="search" placeholder="Введите адрес доставки..."<#if search??> value="${search}"</#if>>
+                    <button type="submit">Найти</button>
+                </form>
             </div>
         </div>
     </div>
@@ -18,58 +20,84 @@
     <h2 class="section-title">Категории</h2>
 
     <div class="categories">
-        <div class="category-card">
+        <a style="all: unset" href="/?category=Ресторан<#if search??>&search=${search}</#if>">
+        <div class="category-card <#if category?? && category == "Ресторан">active</#if>">
             <i class="fas fa-hamburger"></i>
+            <h3>Ресторан</h3>
+        </div>
+        </a>
+
+        <a style="all: unset" href="/?category=Кафе<#if search??>&search=${search}</#if>">
+        <div class="category-card <#if category?? && category == "Кафе">active</#if>">
+            <i class="fas fa-pizza-slice"></i>
+            <h3>Кафе</h3>
+        </div>
+        </a>
+
+            <a style="all: unset" href="/?category=Фастфуд<#if search??>&search=${search}</#if>">
+        <div class="category-card <#if category?? && category == "Фастфуд">active</#if>">
+            <i class="fas fa-fish"></i>
             <h3>Фастфуд</h3>
         </div>
+            </a>
 
-        <div class="category-card">
-            <i class="fas fa-pizza-slice"></i>
-            <h3>Пицца</h3>
-        </div>
-
-        <div class="category-card">
-            <i class="fas fa-fish"></i>
-            <h3>Суши</h3>
-        </div>
-
-        <div class="category-card">
+                <a style="all: unset" href="/?category=Столовая<#if search??>&search=${search}</#if>">
+        <div class="category-card <#if category?? && category == "Столовая">active</#if>">
             <i class="fas fa-utensils"></i>
-            <h3>Азиатская</h3>
+            <h3>Столовая</h3>
         </div>
+                </a>
 
-        <div class="category-card">
+                    <a style="all: unset" href="/?category=Кондитерская<#if search??>&search=${search}</#if>">
+        <div class="category-card <#if category?? && category == "Кондитерская">active</#if>">
             <i class="fas fa-cheese"></i>
-            <h3>Итальянская</h3>
+            <h3>Кондитерская</h3>
         </div>
+                    </a>
 
-        <div class="category-card">
+                        <a style="all: unset" href="/?category=Кофейня<#if search??>&search=${search}</#if>">
+        <div class="category-card <#if category?? && category == "Кофейня">active</#if>">
             <i class="fas fa-leaf"></i>
-            <h3>Здоровая</h3>
+            <h3>Кофейня</h3>
         </div>
+                        </a>
 
-        <div class="category-card">
-            <i class="fas fa-ice-cream"></i>
-            <h3>Десерты</h3>
-        </div>
-
-        <div class="category-card">
-            <i class="fas fa-coffee"></i>
-            <h3>Напитки</h3>
-        </div>
     </div>
 </section>
 
-<section class="container">
+    <#if category??>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="/?page=${page}" class="view-menu" style="display: inline-block;">Сбросить фильтр</a>
+        </div>
+    </#if>
+
+<section class="container" id="restiks">
     <h2 class="section-title">Популярные заведения</h2>
 
     <div class="pagination">
-        <a href="#" class="page-link">&laquo;</a>
-        <a href="#" class="page-link active">1</a>
-        <a href="#" class="page-link">2</a>
-        <a href="#" class="page-link">3</a>
-        <a href="#" class="page-link">&raquo;</a>
+        <#if (page > 0)>
+            <a href="?page=${page - 1}<#if category??>&category=${category}</#if>" class="page-link">&laquo;</a>
+        </#if>
+
+        <#if (page - 1 >= 0)>
+            <a href="?page=${page - 1}<#if category??>&category=${category}</#if>" class="page-link">${page}</a>
+        </#if>
+
+        <a href="?page=${page}<#if category??>&category=${category}</#if>" class="page-link active">${page + 1}</a>
+
+        <#if page + 1 < stores.totalPages>
+            <a href="?page=${page + 1}<#if category??>&category=${category}</#if>" class="page-link">${page + 2}</a>
+        </#if>
+
+        <#if page + 2 < stores.totalPages>
+            <a href="?page=${page + 2}<#if category??>&category=${category}</#if>" class="page-link">${page + 3}</a>
+        </#if>
+
+        <#if page + 1 < stores.totalPages>
+            <a href="?page=${page + 1}<#if category??>&category=${category}</#if>" class="page-link">&raquo;</a>
+        </#if>
     </div>
+
 
 
     <div class="restaurants">
@@ -90,12 +118,14 @@
             </div>
         </div>
         </#list>
+        <#else>
+        на данный момент нету ресторанов
     </#if>
 
     </div>
 </section>
 
-<footer>
+<footer id="contacts">
     <div class="container">
         <div class="footer-content">
             <div class="footer-column">
@@ -254,6 +284,13 @@ header {
     transition: transform 0.3s;
     cursor: pointer;
 }
+
+                       .category-card.active {
+                           border: 2px solid var(--primary);
+                           background-color: #ffffff;
+                           transform: translateY(-6px);
+                       }
+
 
 .category-card:hover {
     transform: translateY(-5px);

@@ -15,4 +15,16 @@ public class StoreService {
     public Page<Store> getStores(Pageable pageable) {
         return storeRepository.findAll(pageable);
     }
+
+    public Page<Store> getStoresByCategory(String category, Pageable pageable) {
+        return storeRepository.findAllByCategoryName(category, pageable);
+    }
+
+    public Page<Store> getStoresBySearch(String search, Pageable pageable) {
+            return storeRepository.findAllBySearch(search, pageable);
+    }
+
+    public Page<Store> getStoresBySearchAndCategory(String search, Pageable pageable, String category) {
+        return storeRepository.findAllBySearchAndCatogory(search, pageable, category);
+    }
 }

@@ -140,6 +140,9 @@
             color: #fff;
         }
 
+
+
+
     </style>
 </head>
 
@@ -152,10 +155,10 @@
 
                     <nav class="ndf-nav">
                         <ul>
-                            <li><a href="#">Главная</a></li>
-                            <li><a href="#">Рестораны</a></li>
+                            <li><a href="/#home">Главная</a></li>
+                            <li><a href="/#restiks">Рестораны</a></li>
                             <li><a href="#">Акции</a></li>
-                            <li><a href="#">Контакты</a></li>
+                            <li><a href="/#contacts">Контакты</a></li>
                         </ul>
                     </nav>
 
