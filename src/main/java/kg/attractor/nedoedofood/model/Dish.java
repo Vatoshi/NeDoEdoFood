@@ -28,7 +28,7 @@ public class Dish {
     private String photo;
 
     @Column(name = "in_stock")
-    private Long inStock;
+    private Boolean inStock;
 
     private Long price;
 

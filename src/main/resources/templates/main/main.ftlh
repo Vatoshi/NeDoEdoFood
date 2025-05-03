@@ -98,11 +98,16 @@
         </#if>
     </div>
 
-
+    <#if stores.isEmpty()>
+        <div style="text-align: center; margin-top: 170px; margin-bottom: 170px; padding: 50px 20px; color: var(--text-gray); font-size: 18px;">
+            <i class="fas fa-search-minus" style="font-size: 68px; color: var(--primary); margin-bottom: 15px;"></i>
+            <p>Похоже, ничего не найдено по вашему запросу.</p>
+            <p>Попробуйте изменить условия поиска или выбрать другую категорию.</p>
+        </div>
+    </#if>
 
     <div class="restaurants">
-
-    <#if stores??>
+        <#if stores??>
         <#list stores.content as store>
         <div class="restaurant-card">
             <div class="restaurant-img"
@@ -114,7 +119,7 @@
                     <span>•${store.category.name}</span>
                 </div>
                 <p>${store.description}</p>
-                <a href="#" class="view-menu">Смотреть меню</a>
+                <a href="/restik?id=${store.id}" class="view-menu">Смотреть меню</a>
             </div>
         </div>
         </#list>
@@ -132,40 +137,40 @@
                 <h3>FoodDelivery</h3>
                 <p>Сервис доставки еды №1 в вашем городе. Более 500 (ага на деле от силы 10) ресторанов-партнеров.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href=""><i class="fab fa-facebook-f"></i></a>
+                    <a href=""><i class="fab fa-instagram"></i></a>
+                    <a href=""><i class="fab fa-twitter"></i></a>
+                    <a href=""><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
 
             <div class="footer-column">
                 <h3>Компания</h3>
                 <ul>
-                    <li><a href="#">О нас</a></li>
-                    <li><a href="#">Карьера</a></li>
-                    <li><a href="#">Блог</a></li>
-                    <li><a href="#">Партнерам</a></li>
+                    <li><a href="">О нас</a></li>
+                    <li><a href="">Карьера</a></li>
+                    <li><a href="">Блог</a></li>
+                    <li><a href="">Партнерам</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h3>Помощь</h3>
                 <ul>
-                    <li><a href="#">Центр поддержки</a></li>
-                    <li><a href="#">Безопасность</a></li>
-                    <li><a href="#">Контакты</a></li>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="">Центр поддержки</a></li>
+                    <li><a href="">Безопасность</a></li>
+                    <li><a href="">Контакты</a></li>
+                    <li><a href="">FAQ</a></li>
                 </ul>
             </div>
 
             <div class="footer-column">
                 <h3>Юридическая информация</h3>
                 <ul>
-                    <li><a href="#">Условия использования</a></li>
-                    <li><a href="#">Политика конфиденциальности</a></li>
-                    <li><a href="#">Пользовательское соглашение</a></li>
-                    <li><a href="#">Возврат средств</a></li>
+                    <li><a href="">Условия использования</a></li>
+                    <li><a href="">Политика конфиденциальности</a></li>
+                    <li><a href="">Пользовательское соглашение</a></li>
+                    <li><a href="">Возврат средств</a></li>
                 </ul>
             </div>
         </div>

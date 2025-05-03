@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +27,9 @@ public class StoreService {
 
     public Page<Store> getStoresBySearchAndCategory(String search, Pageable pageable, String category) {
         return storeRepository.findAllBySearchAndCatogory(search, pageable, category);
+    }
+
+    public Store getStoreById(Long id) {
+        return storeRepository.findById(id).orElseThrow((null));
     }
 }

@@ -179,8 +179,8 @@
                     <#else>
 
                     <div class="ndf-auth-buttons">
-                        <a href="#" class="ndf-login-btn">Войти</a>
-                        <a href="#" class="ndf-register-btn">Регистрация</a>
+                        <a href="/auth/login" class="ndf-login-btn">Войти</a>
+                        <a href="/auth/register" class="ndf-register-btn">Регистрация</a>
                     </div>
 
                     </#if>

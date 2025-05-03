@@ -6,17 +6,17 @@
 
 <div class="restaurant-card">
     <div class="restaurant-avatar">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLd7pnwK7kwYXcXTRjlkksXKKbFNrBJ1G3tQ&s"
+        <img src="${store.logo}"
              alt="Фото ресторана">
     </div>
     <div class="restaurant-details">
-        <h2>Итальянский дворик</h2>
-        <p class="restaurant-description">Настоящая итальянская кухня с душой. Добро пожаловать!</p>
+        <h2>${store.name}</h2>
+        <p class="restaurant-description">${store.description}</p>
         <div class="restaurant-meta">
-            <div><i class="fas fa-store"></i><span>Ресторан</span></div>
-            <div><i class="fas fa-phone"></i><span>1234567890</span></div>
-            <div><i class="fas fa-envelope"></i><span>italian@example.com</span></div>
-            <div><i class="fas fa-clock"></i><span>09:00 – 22:00</span></div>
+            <div><i class="fas fa-store"></i><span>${store.category.name}</span></div>
+            <div><i class="fas fa-phone"></i><span>${store.phoneNumber}</span></div>
+            <div><i class="fas fa-envelope"></i><span>${store.email}</span></div>
+            <div><i class="fas fa-clock"></i><span>${store.workTimeFrom?time?string("HH-mm")} – ${store.workTimeTo?time?string("HH-mm")}</span></div>
         </div>
     </div>
 </div>
@@ -25,44 +25,89 @@
 
 
 <div class="categories">
-    <div class="category"><i class="fas fa-snowflake"></i><span>Холодное</span></div>
-    <div class="category"><i class="fas fa-fire"></i><span>Горячее</span></div>
-    <div class="category"><i class="fas fa-coffee"></i><span>Напитки</span></div>
-    <div class="category"><i class="fas fa-ice-cream"></i><span>Десерты</span></div>
-    <div class="category"><i class="fas fa-utensil-spoon"></i><span>Супы</span></div>
-    <div class="category"><i class="fas fa-egg"></i><span>Завтраки</span></div>
-    <div class="category"><i class="fas fa-leaf"></i><span>Салаты</span></div>
-    <div class="category"><i class="fas fa-bread-slice"></i><span>Выпечка</span></div>
+    <a style="all: unset" href="/restik?id=${id}&category=Холодное">
+    <div class="category <#if category?? && category == "Холодное">icon-active</#if>"><i class="fas fa-snowflake"></i><span>Холодное</span></div>
+    </a>
+    <a style="all: unset" href="/restik?id=${id}&category=Горячее">
+    <div class="category <#if category?? && category == "Горячее">icon-active</#if>"><i class="fas fa-fire"></i><span>Горячее</span></div>
+    </a>
+    <a style="all: unset" href="/restik?id=${id}&category=Напитки">
+    <div class="category <#if category?? && category == "Напитки">icon-active</#if>"><i class="fas fa-coffee"></i><span>Напитки</span></div>
+    </a>
+    <a style="all: unset" href="/restik?id=${id}&category=Десерты">
+    <div class="category <#if category?? && category == "Десерты">icon-active</#if>"><i class="fas fa-ice-cream"></i><span>Десерты</span></div>
+    </a>
+    <a style="all: unset" href="/restik?id=${id}&category=Супы">
+    <div class="category <#if category?? && category == "Супы">icon-active</#if>"><i class="fas fa-utensil-spoon"></i><span>Супы</span></div>
+    </a>
+    <a style="all: unset" href="/restik?id=${id}&category=Завтраки">
+    <div class="category <#if category?? && category == "Завтраки">icon-active</#if>"><i class="fas fa-egg"></i><span>Завтраки</span></div>
+    </a>
+    <a style="all: unset" href="/restik?id=${id}&category=Салаты">
+    <div class="category <#if category?? && category == "Салаты">icon-active</#if>"><i class="fas fa-leaf"></i><span>Салаты</span></div>
+    </a>
+    <a style="all: unset" href="/restik?id=${id}&category=Выпечка">
+    <div class="category <#if category?? && category == "Выпечка">icon-active</#if>"><i class="fas fa-bread-slice"></i><span>Выпечка</span></div>
+    </a>
 </div>
 
 <section class="container">
     <h2 class="section-title">Меню</h2>
     <div class="dishes">
 
-
+        <#if dishes??>
+            <#list dishes.content as dish>
         <div class="dish-card">
             <div class="dish-img"
-                 style="background-image: url('https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg');">
+                 style="background-image: url('${dish.photo}');">
             </div>
             <div class="dish-info">
-                <h3>Цезарь с курицей</h3>
-                <p>Салат с курицей, пармезаном, сухариками и соусом.</p>
+                <h3>${dish.name}</h3>
+                <p>${dish.description}</p>
                 <div class="dish-meta">
-                    <span>450 ₽</span>
-                    <span class="in-stock">В наличии</span>
+                    <span>${dish.price} ₽</span>
+                    <#if dish.inStock>
+                        <span class="in-stock">В наличии</span>
+                    <#else>
+                        <span class="in-stock" style="color: #f42727">Нет в наличии</span>
+                    </#if>
                 </div>
             </div>
-            <button class="add-to-cart">Добавить в корзину</button>
+            <a href="/busket/addProduct?productId=${dish.id}" class="add-to-cart">Добавить в корзину</a>
         </div>
-
-
+            </#list>
+        </#if>
     </div>
 
+    <#if dishes?? && dishes.content?size == 0>
+        <div class="no-results">
+            <i class="fas fa-utensils"></i>
+            <p>К сожалению, по данной категории ничего не найдено.</p>
+        </div>
+    </#if>
+
     <div class="pagination">
-        <button class="active">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>Следующая</button>
+        <#if (page > 0)>
+            <a href="?id=${id}&page=${page - 1}<#if category??>&category=${category}</#if>" class="page-link">&laquo;</a>
+        </#if>
+
+        <#if (page - 1 >= 0)>
+            <a href="?id=${id}&page=${page - 1}<#if category??>&category=${category}</#if>" class="page-link">${page}</a>
+        </#if>
+
+        <a href="?id=${id}&page=${page}<#if category??>&category=${category}</#if>" class="page-link active">${page + 1}</a>
+
+        <#if page + 1 < dishes.totalPages>
+            <a href="?id=${id}&page=${page + 1}<#if category??>&category=${category}</#if>" class="page-link">${page + 2}</a>
+        </#if>
+
+        <#if page + 2 < dishes.totalPages>
+            <a href="?id=${id}&page=${page + 2}<#if category??>&category=${category}</#if>" class="page-link">${page + 3}</a>
+        </#if>
+
+        <#if page + 1 < dishes.totalPages>
+            <a href="?id=${id}&page=${page + 1}<#if category??>&category=${category}</#if>" class="page-link">&raquo;</a>
+        </#if>
     </div>
 </section>
 
@@ -73,6 +118,11 @@
         margin-top: 100px;
         background-color: #f7f7f7;
         color: #333;
+    }
+
+    .icon-active {
+        border: 1px solid #ff6b6b;
+        transform: translateY(-6px);
     }
 
     .restaurant-card {
@@ -252,7 +302,8 @@
         gap: 10px;
     }
 
-    .pagination button {
+    .pagination a {
+        all: unset;
         background: white;
         border: 1px solid #ddd;
         border-radius: 6px;
@@ -260,9 +311,10 @@
         cursor: pointer;
         font-weight: bold;
         transition: background-color 0.2s;
+        color: black;
     }
 
-    .pagination button:hover {
+    .pagination a:hover {
         background-color: #ff7043;
         color: white;
     }
@@ -329,5 +381,33 @@
         display: flex;
         align-items: center;
     }
+
+    .no-results {
+        text-align: center;
+        margin: 60px 0;
+        color: #999;
+        font-size: 18px;
+    }
+
+    .no-results i {
+        font-size: 48px;
+        color: #ff7043;
+        margin-bottom: 16px;
+    }
+
 </style>
+
+    <script>
+        window.addEventListener('load', function () {
+            const scrollPosition = localStorage.getItem('scrollPosition');
+            if (scrollPosition) {
+                window.scrollTo(0, scrollPosition);
+            }
+        });
+
+        window.addEventListener('scroll', function () {
+            const scrollPosition = window.scrollY;
+            localStorage.setItem('scrollPosition', scrollPosition);
+        });
+    </script>
 </@main.layout>
