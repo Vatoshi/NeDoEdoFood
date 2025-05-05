@@ -73,7 +73,7 @@
                     </#if>
                 </div>
             </div>
-            <a href="/busket/addProduct?productId=${dish.id}" class="add-to-cart">Добавить в корзину</a>
+            <a <#if dish.inStock> href="/user/add?id=${dish.id}&rest=${id}&page=${page}"  class="add-to-cart"><#else>  class="add-to-cart added"></#if><#if dish.inStock>Добавить в корзину<#else>Нет в наличии</#if></a>
         </div>
             </#list>
         </#if>
@@ -281,7 +281,7 @@
     .add-to-cart {
         display: block;
         text-align: center;
-        background-color: #ff7043;
+        background-color: #fb7e55;
         color: white;
         padding: 10px;
         border: none;
@@ -289,10 +289,19 @@
         font-weight: bold;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .added {
+        background-color: #57504f;
     }
 
     .add-to-cart:hover {
-        background-color: #ff5722;
+        background-color: #f8693d;
+    }
+
+    .added:hover {
+        background-color: #57504f;
     }
 
     .pagination {

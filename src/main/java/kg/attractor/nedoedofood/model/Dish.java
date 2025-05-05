@@ -30,7 +30,7 @@ public class Dish {
     @Column(name = "in_stock")
     private Boolean inStock;
 
-    private Long price;
+    private Integer price;
 
 }
 

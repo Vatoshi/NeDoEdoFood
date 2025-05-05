@@ -165,7 +165,7 @@
                     <#if user??>
 
                         <div class="ndf-auth-buttons">
-                            <a href="#" class="ndf-icon-btn" title="Корзина">
+                            <a href="/user/bascket" class="ndf-icon-btn" title="Корзина">
                                 <i class="fa-solid fa-cart-shopping"></i>
                             </a>
                             <a href="#" class="ndf-icon-btn" title="Заказы">
@@ -179,6 +179,9 @@
                     <#else>
 
                     <div class="ndf-auth-buttons">
+                        <a href="/user/bascket" class="ndf-icon-btn" title="Корзина">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </a>
                         <a href="/auth/login" class="ndf-login-btn">Войти</a>
                         <a href="/auth/register" class="ndf-register-btn">Регистрация</a>
                     </div>

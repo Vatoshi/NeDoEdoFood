@@ -72,7 +72,14 @@
     </#if>
 
 <section class="container" id="restiks">
-    <h2 class="section-title">Популярные заведения</h2>
+    <h2 class="section-title">
+        <#if category??>
+            Заведения — ${category}
+        <#else>
+            Заведения
+        </#if>
+    </h2>
+
 
     <div class="pagination">
         <#if (page > 0)>

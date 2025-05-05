@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartItem {
-    private int id;
+    private Long id;
     private int quantity;
 }

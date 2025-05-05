@@ -20,4 +20,8 @@ public class DishService {
     public Page<Dish> findAllByStoreIdAndCategory(Long storeId, Pageable pageable, String category) {
         return dishRepository.findAllByStoreIdAndCategoryName(storeId,pageable,category);
     }
+
+    public Dish findById(Long id) {
+        return dishRepository.findById(id).orElse(null);
+    }
 }
