@@ -158,14 +158,6 @@
             </#if>
         </div>
 
-
-
-        <div class="remember-forgot">
-            <div class="forgot-password">
-                <a href="#">Забыли пароль?</a>
-            </div>
-        </div>
-
         <button type="submit" class="login-button">Войти</button>
     </form>
 
