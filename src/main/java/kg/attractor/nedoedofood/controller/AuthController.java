@@ -54,6 +54,6 @@ public class AuthController {
             return "login/register";
         }
         userService.createUser(userFormDto);
-        return "redirect:/auth/login";
+        return "redirect.ftlh:/auth/login";
     }
 }

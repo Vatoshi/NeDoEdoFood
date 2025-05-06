@@ -46,7 +46,8 @@ public class SecurityConfig {
                         .permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/auth/login", "/auth/register", "/auth/logout","/*","user/**").permitAll()
+                        .requestMatchers("/user/createOrder","/user/orders").authenticated()
+                        .requestMatchers("/auth/login", "/auth/register", "/auth/logout","/*","/user/**").permitAll()
                         .anyRequest().authenticated());
 
 

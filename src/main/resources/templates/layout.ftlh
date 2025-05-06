@@ -168,7 +168,7 @@
                             <a href="/user/bascket" class="ndf-icon-btn" title="Корзина">
                                 <i class="fa-solid fa-cart-shopping"></i>
                             </a>
-                            <a href="#" class="ndf-icon-btn" title="Заказы">
+                            <a href="/user/orders" class="ndf-icon-btn" title="Заказы">
                                 <i class="fa-solid fa-box-archive"></i>
                             </a>
                             <a href="#" class="ndf-icon-btn" title="Профиль">

@@ -84,7 +84,7 @@ databaseChangeLog:
       author: eric
       changes:
         - createTable:
-            tableName: order
+            tableName: orders
             columns:
               - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
               - column: { name: user_id, type: bigint }
@@ -101,6 +101,8 @@ databaseChangeLog:
               - column: { name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true } }
               - column: { name: order_id, type: bigint }
               - column: { name: dish_id, type: bigint }
+              - column: { name: quantity, type: bigint }
+
 
   - changeSet:
       id: 8

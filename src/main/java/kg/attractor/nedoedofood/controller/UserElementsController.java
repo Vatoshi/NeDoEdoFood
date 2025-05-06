@@ -10,12 +10,14 @@ import jakarta.servlet.http.HttpSession;
 import kg.attractor.nedoedofood.dto.CartDto;
 import kg.attractor.nedoedofood.model.Cart.CartItem;
 import kg.attractor.nedoedofood.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,19 +53,30 @@ public class UserElementsController {
             }
         }
 
-        CartItem item = new CartItem();
-        item.setId(dishId);
-        item.setQuantity(1);
-        cart.add(item);
+        boolean alreadyExists = false;
+        for (CartItem cartItem : cart) {
+            if (cartItem.getId().equals(dishId)) {
+                alreadyExists = true;
+                break;
+            }
+        }
+
+        if (!alreadyExists) {
+            CartItem item = new CartItem();
+            item.setId(dishId);
+            item.setQuantity(1);
+            cart.add(item);
+        }
 
         String json = mapper.writeValueAsString(cart);
         Cookie cookie = new Cookie("cart", java.net.URLEncoder.encode(json, "UTF-8"));
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 7);
+        cookie.setMaxAge(60 * 60 * 24 * 7); // 7 дней
         response.addCookie(cookie);
 
-        return "redirect:/restik?id=" + restId + "&page=" + page + "&dishAdded=" + dishId;
+        return "redirect:/restik?id=" + restId + "&page=" + page;
     }
+
 
     @GetMapping("bascket")
     public String getCart(Model model, HttpServletRequest request, Authentication auth){
@@ -86,7 +99,7 @@ public class UserElementsController {
         return "main/bascket";
     }
 
-    @GetMapping("move")
+    @PostMapping("move")
     public String minus (@RequestParam("id") Long id,
                          @RequestParam("move") String move,
                          HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
@@ -114,5 +127,32 @@ public class UserElementsController {
         newCookie.setMaxAge(60 * 60 * 24 * 7);
         response.addCookie(newCookie);
         return "redirect:/user/bascket";
+    }
+
+    @PostMapping("createOrder")
+    public String createOrder(HttpServletRequest request, HttpServletResponse response,Authentication auth) throws JsonProcessingException, UnsupportedEncodingException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<CartItem> items = new ArrayList<>();
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c : cookies) {
+            if ("cart".equals(c.getName())) {
+                String value = java.net.URLDecoder.decode(c.getValue(), "UTF-8");
+                items = mapper.readValue(value, new TypeReference<List<CartItem>>() {});
+                break;
+            }
+        }
+        userService.createOrder(items,auth.getName());
+        Cookie cookie = new Cookie("cart", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "error/redirect";
+    }
+
+    @GetMapping("orders")
+    public String getOrders(Model model, Authentication auth) {
+        model.addAttribute("user", userService.getUserByEmail(auth.getName()));
+        model.addAttribute("orders", userService.getUserOrders(auth.getName()));
+        return "main/order";
     }
 }

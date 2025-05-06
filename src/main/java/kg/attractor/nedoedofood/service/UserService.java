@@ -4,21 +4,31 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kg.attractor.nedoedofood.dto.CartDto;
+import kg.attractor.nedoedofood.dto.OrderDishDto;
+import kg.attractor.nedoedofood.dto.OrderDto;
 import kg.attractor.nedoedofood.dto.UserFormDto;
 import jakarta.servlet.http.Cookie;
 
 import kg.attractor.nedoedofood.model.Cart.CartItem;
 
 import kg.attractor.nedoedofood.model.Dish;
+import kg.attractor.nedoedofood.model.Order;
+import kg.attractor.nedoedofood.model.OrderedDish;
 import kg.attractor.nedoedofood.model.User;
 import kg.attractor.nedoedofood.repository.AuthorityRepository;
 import kg.attractor.nedoedofood.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +36,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final DishService dishService;
+    private final OrderService orderService;
+    private final OrderDishService orderDishService;
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
@@ -56,15 +68,18 @@ public class UserService {
         if (cookies != null) {
             for (Cookie c : cookies) {
                 if ("cart".equals(c.getName())) {
-                    String value = java.net.URLDecoder.decode(c.getValue(), "UTF-8");
+                    String value = URLDecoder.decode(c.getValue(), "UTF-8");
                     List<CartItem> items = mapper.readValue(value, new TypeReference<List<CartItem>>() {});
 
-                    Map<Long, CartItem> uniqueItems = new HashMap<>();
+                    Set<Long> seenIds = new HashSet<>();
+                    List<CartItem> uniqueItems = new ArrayList<>();
                     for (CartItem item : items) {
-                        uniqueItems.putIfAbsent(item.getId(), item);
+                        if (seenIds.add(item.getId())) {
+                            uniqueItems.add(item);
+                        }
                     }
 
-                    for (CartItem item : uniqueItems.values()) {
+                    for (CartItem item : uniqueItems) {
                         Dish dish = dishService.findById(item.getId());
                         CartDto cartDto = CartDto.builder()
                                 .id(item.getId())
@@ -110,5 +125,52 @@ public class UserService {
         return carts;
     }
 
+    @Transactional
+    public void createOrder(List<CartItem> items, String email) {
+        User user = getUserByEmail(email);
+        int sum = 0;
+        for (CartItem item : items) {
+            Dish dish = dishService.findById(item.getId());
+            sum += dish.getPrice() * item.getQuantity();
+        }
+        Order order = Order.builder()
+                .createdDate(LocalDateTime.now())
+                .total(sum)
+                .user(user)
+                .build();
+        orderService.save(order);
+        for (CartItem item : items) {
+            Dish dish = dishService.findById(item.getId());
+            OrderedDish or = OrderedDish.builder()
+                    .order(order)
+                    .dish(dish)
+                    .quantity(item.getQuantity())
+                    .build();
+            orderDishService.save(or);
+        }
+    }
 
+    public List<OrderDto> getUserOrders(String email) {
+        User user = getUserByEmail(email);
+        List<Order> orders = orderService.getUserOrders(user);
+        List<OrderDto> orderDtos = new ArrayList<>();
+        for (Order order : orders) {
+            List<OrderedDish> orderedDishes = orderDishService.findOrderedDishesByOrder(order);
+            List<OrderDishDto> orderDishDtos = orderedDishes.stream()
+                    .map(orderedDish -> new OrderDishDto(
+                            orderedDish.getDish().getName(),
+                            orderedDish.getDish().getPrice(),
+                            orderedDish.getQuantity()
+                    ))
+                    .collect(Collectors.toList());
+
+            OrderDto orderDto = OrderDto.builder()
+                    .orderDate(LocalDate.from(order.getCreatedDate()))
+                    .price(order.getTotal())
+                    .dishes(orderDishDtos)
+                    .build();
+            orderDtos.add(orderDto);
+        }
+        return orderDtos;
+    }
 }

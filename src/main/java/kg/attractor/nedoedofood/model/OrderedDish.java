@@ -1,12 +1,14 @@
 package kg.attractor.nedoedofood.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "ordered_dish")
 public class OrderedDish {
 
@@ -21,4 +23,6 @@ public class OrderedDish {
     @ManyToOne
     @JoinColumn(name = "dish_id")
     private Dish dish;
+
+    private Integer quantity;
 }

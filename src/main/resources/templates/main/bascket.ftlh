@@ -13,14 +13,38 @@
                         <p class="ndf-item-description">${cart.description}</p>
                         <div class="ndf-item-footer">
                             <div class="ndf-quantity-controls">
-                                <a style="all: unset" <#if (cart.quantity > 1)>href="/user/move?id=${cart.id}&move=minus"</#if>class="ndf-quantity-btn ndf-decrease">-</a>
+                                <form action="/user/move" method="post" style="display: inline">
+                                    <#if _csrf??>
+                                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                               value="${(_csrf.token)!'csrf-token'}"/>
+                                    </#if>
+                                    <input type="hidden" name="id" value="${cart.id}">
+                                    <input type="hidden" name="move" value="minus">
+                                    <button type="submit" class="ndf-quantity-btn ndf-decrease" <#if cart.quantity == 1>disabled</#if>>-</button>
+                                </form>
+
                                 <input disabled value="${cart.quantity}" min="1" class="ndf-quantity-input">
-                                <a style="all: unset" href="/user/move?id=${cart.id}&move=plus" class="ndf-quantity-btn ndf-increase">+</a>
+
+                                <form action="/user/move" method="post" style="display: inline">
+                                    <#if _csrf??>
+                                        <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                               value="${(_csrf.token)!'csrf-token'}"/>
+                                    </#if>
+                                    <input type="hidden" name="id" value="${cart.id}">
+                                    <input type="hidden" name="move" value="plus">
+                                    <button type="submit" class="ndf-quantity-btn ndf-increase">+</button>
+                                </form>
                             </div>
-                            <div>
+                            <form action="/user/move" method="post" style="display: inline">
+                                <#if _csrf??>
+                                    <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                                           value="${(_csrf.token)!'csrf-token'}"/>
+                                </#if>
                                 <span class="ndf-item-price">${cart.price} ₽</span>
-                                <a href="/user/move?id=${cart.id}&move=delete" class="ndf-remove-btn">Удалить</a>
-                            </div>
+                                <input type="hidden" name="id" value="${cart.id}">
+                                <input type="hidden" name="move" value="delete">
+                                <button type="submit" class="ndf-remove-btn">Удалить</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -29,8 +53,13 @@
         <div class="ndf-cart-total">
             Итого: <span id="ndf-total-price">${total} ₽</span>
         </div>
-
+        <form action="/user/createOrder" method="post">
+            <#if _csrf??>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                       value="${(_csrf.token)!'csrf-token'}"/>
+            </#if>
         <button class="ndf-checkout-btn">Оформить заказ</button>
+        </form>
     </div>
 
     <#else>

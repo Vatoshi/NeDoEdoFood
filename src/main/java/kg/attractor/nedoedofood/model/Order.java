@@ -1,16 +1,19 @@
 package kg.attractor.nedoedofood.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "order")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -22,9 +25,9 @@ public class Order {
     private User user;
 
     @Column(name = "created_date")
-    private Timestamp createdDate;
+    private LocalDateTime createdDate;
 
-    private Long total;
+    private Integer total;
 
     @OneToMany(mappedBy = "order")
     private List<OrderedDish> orderedDishes;

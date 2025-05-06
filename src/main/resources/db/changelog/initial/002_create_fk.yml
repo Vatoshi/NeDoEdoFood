@@ -36,7 +36,7 @@ databaseChangeLog:
       author: eric
       changes:
         - addForeignKeyConstraint:
-            baseTableName: order
+            baseTableName: orders
             baseColumnNames: user_id
             referencedTableName: users
             referencedColumnNames: id
@@ -49,7 +49,7 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseTableName: ordered_dish
             baseColumnNames: order_id
-            referencedTableName: order
+            referencedTableName: orders
             referencedColumnNames: id
             constraintName: fk_ordered_dish_order
 
