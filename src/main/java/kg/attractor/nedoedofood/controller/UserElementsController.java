@@ -6,11 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import kg.attractor.nedoedofood.dto.CartDto;
 import kg.attractor.nedoedofood.model.Cart.CartItem;
 import kg.attractor.nedoedofood.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,20 +35,7 @@ public class UserElementsController {
                             @RequestParam("page") int page,
                             HttpServletRequest request,
                             HttpServletResponse response) throws Exception {
-
-        ObjectMapper mapper = new ObjectMapper();
-        List<CartItem> cart = new ArrayList<>();
-
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie c : cookies) {
-                if ("cart".equals(c.getName())) {
-                    String value = java.net.URLDecoder.decode(c.getValue(), "UTF-8");
-                    cart = mapper.readValue(value, new TypeReference<List<CartItem>>() {});
-                    break;
-                }
-            }
-        }
+        List<CartItem> cart = userService.getListFromCookie(request);
 
         boolean alreadyExists = false;
         for (CartItem cartItem : cart) {
@@ -68,12 +52,7 @@ public class UserElementsController {
             cart.add(item);
         }
 
-        String json = mapper.writeValueAsString(cart);
-        Cookie cookie = new Cookie("cart", java.net.URLEncoder.encode(json, "UTF-8"));
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 7); // 7 дней
-        response.addCookie(cookie);
-
+        userService.setCartCookie(response, cart);
         return "redirect:/restik?id=" + restId + "&page=" + page;
     }
 
@@ -103,16 +82,8 @@ public class UserElementsController {
     public String minus (@RequestParam("id") Long id,
                          @RequestParam("move") String move,
                          HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
-        ObjectMapper mapper = new ObjectMapper();
-        List<CartItem> items = new ArrayList<>();
-        Cookie[] cookies = request.getCookies();
-        for (Cookie c : cookies) {
-            if ("cart".equals(c.getName())) {
-                String value = java.net.URLDecoder.decode(c.getValue(), "UTF-8");
-                items = mapper.readValue(value, new TypeReference<List<CartItem>>() {});
-                break;
-            }
-        }
+        List<CartItem> items = userService.getListFromCookie(request);
+
         if (move.equals("minus")) {
             items = userService.minusQuantity(items, id);
         } else if (move.equals("plus")) {
@@ -121,26 +92,13 @@ public class UserElementsController {
             items = userService.deleteDish(items, id);
         }
 
-        String updatedJson = mapper.writeValueAsString(items);
-        Cookie newCookie = new Cookie("cart", java.net.URLEncoder.encode(updatedJson, "UTF-8"));
-        newCookie.setPath("/");
-        newCookie.setMaxAge(60 * 60 * 24 * 7);
-        response.addCookie(newCookie);
+        userService.setCartCookie(response, items);
         return "redirect:/user/bascket";
     }
 
     @PostMapping("createOrder")
     public String createOrder(HttpServletRequest request, HttpServletResponse response,Authentication auth) throws JsonProcessingException, UnsupportedEncodingException {
-        ObjectMapper mapper = new ObjectMapper();
-        List<CartItem> items = new ArrayList<>();
-        Cookie[] cookies = request.getCookies();
-        for (Cookie c : cookies) {
-            if ("cart".equals(c.getName())) {
-                String value = java.net.URLDecoder.decode(c.getValue(), "UTF-8");
-                items = mapper.readValue(value, new TypeReference<List<CartItem>>() {});
-                break;
-            }
-        }
+        List<CartItem> items = userService.getListFromCookie(request);
         userService.createOrder(items,auth.getName());
         Cookie cookie = new Cookie("cart", null);
         cookie.setMaxAge(0);
@@ -155,4 +113,12 @@ public class UserElementsController {
         model.addAttribute("orders", userService.getUserOrders(auth.getName()));
         return "main/order";
     }
+
+    @GetMapping("information")
+    public String getInformation(Model model, Authentication auth) {
+        model.addAttribute("user", userService.getUserByEmail(auth.getName()));
+        model.addAttribute("us", userService.getUser(auth.getName()));
+        return "main/user";
+    }
+
 }

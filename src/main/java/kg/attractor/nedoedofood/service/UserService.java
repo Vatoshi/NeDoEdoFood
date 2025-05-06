@@ -3,10 +3,9 @@ package kg.attractor.nedoedofood.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kg.attractor.nedoedofood.dto.CartDto;
-import kg.attractor.nedoedofood.dto.OrderDishDto;
-import kg.attractor.nedoedofood.dto.OrderDto;
-import kg.attractor.nedoedofood.dto.UserFormDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import kg.attractor.nedoedofood.dto.*;
 import jakarta.servlet.http.Cookie;
 
 import kg.attractor.nedoedofood.model.Cart.CartItem;
@@ -18,18 +17,20 @@ import kg.attractor.nedoedofood.model.User;
 import kg.attractor.nedoedofood.repository.AuthorityRepository;
 import kg.attractor.nedoedofood.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -38,6 +39,7 @@ public class UserService {
     private final DishService dishService;
     private final OrderService orderService;
     private final OrderDishService orderDishService;
+    private final ObjectMapper mapper;
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
@@ -62,7 +64,6 @@ public class UserService {
     }
 
     public List<CartDto> getDishesForCarts(Cookie[] cookies) throws UnsupportedEncodingException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         List<CartDto> carts = new ArrayList<>();
 
         if (cookies != null) {
@@ -147,12 +148,14 @@ public class UserService {
                     .quantity(item.getQuantity())
                     .build();
             orderDishService.save(or);
+            log.info("Order #{}", order.getId());
         }
     }
 
     public List<OrderDto> getUserOrders(String email) {
         User user = getUserByEmail(email);
         List<Order> orders = orderService.getUserOrders(user);
+        orders.sort(Comparator.comparing(Order::getCreatedDate).reversed());
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : orders) {
             List<OrderedDish> orderedDishes = orderDishService.findOrderedDishesByOrder(order);
@@ -172,5 +175,35 @@ public class UserService {
             orderDtos.add(orderDto);
         }
         return orderDtos;
+    }
+
+    public UserDto getUser(String email) {
+        User user = getUserByEmail(email);
+        return UserDto.builder()
+                .email(user.getEmail())
+                .name(user.getName())
+                .phoneNumber(user.getPhoneNumber())
+                .build();
+    }
+
+    public List<CartItem> getListFromCookie(HttpServletRequest request) throws JsonProcessingException, UnsupportedEncodingException {
+        List<CartItem> items = new ArrayList<>();
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c : cookies) {
+            if ("cart".equals(c.getName())) {
+                String value = java.net.URLDecoder.decode(c.getValue(), "UTF-8");
+                items = mapper.readValue(value, new TypeReference<List<CartItem>>() {});
+                break;
+            }
+        }
+        return items;
+    }
+
+    public void setCartCookie(HttpServletResponse response, List<CartItem> items) throws JsonProcessingException, UnsupportedEncodingException {
+        String updatedJson = mapper.writeValueAsString(items);
+        Cookie newCookie = new Cookie("cart", URLEncoder.encode(updatedJson, "UTF-8"));
+        newCookie.setPath("/");
+        newCookie.setMaxAge(60 * 60 * 24 * 7);
+        response.addCookie(newCookie);
     }
 }

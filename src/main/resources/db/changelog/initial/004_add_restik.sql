@@ -10,10 +10,9 @@ VALUES
     ('Французское кафе', 2, 'Круассаны и багеты', 1234567898, 'france@example.com', '08:30', '20:30', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgVRBjHkaCa8zjdPQRVb_n1C5vv_K5tyYc2A&s'),
     ('Крылья и стейк', 3, 'Жареное мясо и соусы',  1234567899, 'meat@example.com', '11:00', '01:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8OjX_G2gFHUPUgfaPZCr0-jPvPPEXcKupBw&s'),
     ('Школьная столовая', 4, 'Классика детства',  2234567890, 'school@example.com', '07:30', '16:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuVBHwrdV_r4WajhiQo_toWDsueykP-MaTSg&s'),
-    ('Тортовая мастерская', 5, 'Десерты на заказ', 2234567892, 'cakes@example.com', '09:00', '20:00', 'logo13.png'),
-    ('Утренний кофе', 6, 'Эспрессо и завтраки',  2234567893, 'morning@example.com', '06:30', '14:00', 'logo14.png'),
-    ('Русская кухня', 1, 'Блины, пельмени, щи',  2234567894, 'russian@example.com', '10:00', '22:00', 'logo15.png'),
-    ('Семейное кафе', 2, 'Уютно и вкусно для всех',  2234567895, 'family@example.com', '08:00', '21:00', 'logo16.png'),
-    ('Шаурма Street', 3, 'Шаурма на любой вкус',  2234567896, 'shawarma@example.com', '11:00', '02:00', 'logo17.png'),
-    ('Бюджетная столовая', 4, 'Обеды без лишних затрат',  2234567897, 'cheap@example.com', '07:00', '18:00', 'logo18.png'),
-    ('Десерт & Кофе', 5, 'Комбо для сладкоежек',  2234567899, 'combo@example.com', '09:30', '21:30', 'logo20.png');
+    ('Тортовая мастерская', 5, 'Десерты на заказ', 2234567892, 'cakes@example.com', '09:00', '20:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQVH2Mmq45Syldv9gD8jgwbRMP5dygRaiTIg&s'),
+    ('Утренний кофе', 6, 'Эспрессо и завтраки',  2234567893, 'morning@example.com', '06:30', '14:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7B7tchSo7BJ3wGXEsWJDy9CM14DGG9JXYlw&s'),
+    ('Семейное кафе', 2, 'Уютно и вкусно для всех',  2234567895, 'family@example.com', '08:00', '21:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqWv-enY0QfqY1wr-Jb7bRM_JIC-NpLqN_Sw&s'),
+    ('Шаурма Street', 3, 'Шаурма на любой вкус',  2234567896, 'shawarma@example.com', '11:00', '02:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqWv-enY0QfqY1wr-Jb7bRM_JIC-NpLqN_Sw&s'),
+    ('Бюджетная столовая', 4, 'Обеды без лишних затрат',  2234567897, 'cheap@example.com', '07:00', '18:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqWv-enY0QfqY1wr-Jb7bRM_JIC-NpLqN_Sw&s'),
+    ('Десерт & Кофе', 5, 'Комбо для сладкоежек',  2234567899, 'combo@example.com', '09:30', '21:30', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqWv-enY0QfqY1wr-Jb7bRM_JIC-NpLqN_Sw&s');

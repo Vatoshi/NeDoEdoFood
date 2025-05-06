@@ -6,14 +6,14 @@
 
 <div class="restaurant-card">
     <div class="restaurant-avatar">
-        <img src="${store.logo}"
+        <img src="${store.image}"
              alt="Фото ресторана">
     </div>
     <div class="restaurant-details">
         <h2>${store.name}</h2>
         <p class="restaurant-description">${store.description}</p>
         <div class="restaurant-meta">
-            <div><i class="fas fa-store"></i><span>${store.category.name}</span></div>
+            <div><i class="fas fa-store"></i><span>${store.category}</span></div>
             <div><i class="fas fa-phone"></i><span>${store.phoneNumber}</span></div>
             <div><i class="fas fa-envelope"></i><span>${store.email}</span></div>
             <div><i class="fas fa-clock"></i><span>${store.workTimeFrom?time?string("HH-mm")} – ${store.workTimeTo?time?string("HH-mm")}</span></div>
@@ -59,7 +59,7 @@
             <#list dishes.content as dish>
         <div class="dish-card">
             <div class="dish-img"
-                 style="background-image: url('${dish.photo}');">
+                 style="background-image: url('${dish.image}');">
             </div>
             <div class="dish-info">
                 <h3>${dish.name}</h3>

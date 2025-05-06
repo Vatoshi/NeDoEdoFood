@@ -171,7 +171,7 @@
                             <a href="/user/orders" class="ndf-icon-btn" title="Заказы">
                                 <i class="fa-solid fa-box-archive"></i>
                             </a>
-                            <a href="#" class="ndf-icon-btn" title="Профиль">
+                            <a href="/user/information" class="ndf-icon-btn" title="Профиль">
                                 <i class="fa-solid fa-user"></i>
                             </a>
                         </div>

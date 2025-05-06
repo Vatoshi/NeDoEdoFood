@@ -1,7 +1,6 @@
 package kg.attractor.nedoedofood.controller;
 
-import jakarta.servlet.http.HttpSession;
-import kg.attractor.nedoedofood.model.Cart.CartItem;
+import kg.attractor.nedoedofood.dto.StoreDto;
 import kg.attractor.nedoedofood.model.Store;
 import kg.attractor.nedoedofood.service.DishService;
 import kg.attractor.nedoedofood.service.StoreService;
@@ -46,7 +45,7 @@ public class MainController {
             model.addAttribute("user", null);
         }
 
-        Page<Store> stores;
+        Page<StoreDto> stores;
 
         if (search != null && !search.isBlank() && category != null && !category.isBlank()) {
             stores = storeService.getStoresBySearchAndCategory(search, pageable, category);

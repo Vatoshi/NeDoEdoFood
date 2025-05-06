@@ -1,5 +1,6 @@
 package kg.attractor.nedoedofood.service;
 
+import kg.attractor.nedoedofood.dto.StoreDto;
 import kg.attractor.nedoedofood.model.Store;
 import kg.attractor.nedoedofood.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,23 +14,76 @@ import org.springframework.web.client.HttpClientErrorException;
 public class StoreService {
     private final StoreRepository storeRepository;
 
-    public Page<Store> getStores(Pageable pageable) {
-        return storeRepository.findAll(pageable);
+    public Page<StoreDto> getStores(Pageable pageable) {
+        return storeRepository.findAll(pageable)
+                .map(store -> new StoreDto(
+                        store.getId(),
+                        store.getName(),
+                        store.getCategory().getName(),
+                        store.getDescription(),
+                        store.getLogo(),
+                        store.getPhoneNumber(),
+                        store.getEmail(),
+                        store.getWorkTimeFrom(),
+                        store.getWorkTimeTo()
+                ));
     }
 
-    public Page<Store> getStoresByCategory(String category, Pageable pageable) {
-        return storeRepository.findAllByCategoryName(category, pageable);
+    public Page<StoreDto> getStoresByCategory(String category, Pageable pageable) {
+        return storeRepository.findAllByCategoryName(category, pageable)
+                .map(store -> new StoreDto(
+                        store.getId(),
+                        store.getName(),
+                        store.getCategory().getName(),
+                        store.getDescription(),
+                        store.getLogo(),
+                        store.getPhoneNumber(),
+                        store.getEmail(),
+                        store.getWorkTimeFrom(),
+                        store.getWorkTimeTo()
+                ));
     }
 
-    public Page<Store> getStoresBySearch(String search, Pageable pageable) {
-            return storeRepository.findAllBySearch(search, pageable);
+    public Page<StoreDto> getStoresBySearch(String search, Pageable pageable) {
+            return storeRepository.findAllBySearch(search, pageable)
+                    .map(store -> new StoreDto(
+                            store.getId(),
+                            store.getName(),
+                            store.getCategory().getName(),
+                            store.getDescription(),
+                            store.getLogo(),
+                            store.getPhoneNumber(),
+                            store.getEmail(),
+                            store.getWorkTimeFrom(),
+                            store.getWorkTimeTo()
+                    ));
     }
 
-    public Page<Store> getStoresBySearchAndCategory(String search, Pageable pageable, String category) {
-        return storeRepository.findAllBySearchAndCatogory(search, pageable, category);
+    public Page<StoreDto> getStoresBySearchAndCategory(String search, Pageable pageable, String category) {
+        return storeRepository.findAllBySearchAndCatogory(search, pageable, category)
+                .map(store -> new StoreDto(
+                        store.getId(),
+                        store.getName(),
+                        store.getCategory().getName(),
+                        store.getDescription(),
+                        store.getLogo(),
+                        store.getPhoneNumber(),
+                        store.getEmail(),
+                        store.getWorkTimeFrom(),
+                        store.getWorkTimeTo()
+                ));
     }
 
-    public Store getStoreById(Long id) {
-        return storeRepository.findById(id).orElseThrow((null));
+    public StoreDto getStoreById(Long id) {
+        Store store = storeRepository.findById(id).orElseThrow((null));
+        return new StoreDto(store.getId(),
+                store.getName(),
+                store.getCategory().getName(),
+                store.getDescription(),
+                store.getLogo(),
+                store.getPhoneNumber(),
+                store.getEmail(),
+                store.getWorkTimeFrom(),
+                store.getWorkTimeTo());
     }
 }

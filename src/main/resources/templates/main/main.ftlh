@@ -118,12 +118,12 @@
         <#list stores.content as store>
         <div class="restaurant-card">
             <div class="restaurant-img"
-                 style="background-image: url('${store.logo}')">
+                 style="background-image: url('${store.image}')">
             </div>
             <div class="restaurant-info">
                 <h3>${store.name}</h3>
                 <div class="restaurant-meta">
-                    <span>•${store.category.name}</span>
+                    <span>•${store.category}</span>
                 </div>
                 <p>${store.description}</p>
                 <a href="/restik?id=${store.id}" class="view-menu">Смотреть меню</a>
